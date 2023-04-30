@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>MCQ Analyzer Test Website</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+  </head>
+  <body>
+    <h1>Welcome to the MCQ Analyzer Test Website</h1>
+    <h2>Report Generation</h2>
+    <p>Use the form below to generate a test report:</p>
+    <form action="generate_report.py" method="post">
+      <label for="answer_key_file">Answer Key File:</label>
+      <input type="file" id="answer_key_file" name="answer_key_file"><br>
+      <label for="student_answers_file">Student Answers File:</label>
+      <input type="file" id="student_answers_file" name="student_answers_file"><br>
+      
+      <input type="submit" value="Generate Report">
+    </form>
+    
+  </body>
+</html>
