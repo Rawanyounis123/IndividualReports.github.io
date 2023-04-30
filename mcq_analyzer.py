@@ -138,6 +138,7 @@ def generate_report(answer_key_file, student_answers_file, report_file):
 
 
     # Save the document
+    
     doc.save(report_file)
     return report_file
 

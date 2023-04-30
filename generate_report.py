@@ -6,6 +6,7 @@ def generate():
     student_answers_file = request.files['student_answers_file']
     report_file = BytesIO()
     
+    
     # Generate the report using the mcq_analyzer module
     report = mcq_analyzer.generate_report(answer_key_file, student_answers_file, report_file)
    
