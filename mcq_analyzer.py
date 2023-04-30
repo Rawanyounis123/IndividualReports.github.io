@@ -16,7 +16,7 @@ def get_topic_scores(topic_dict):
     return correct, total
 
 
-def generate_report(answer_key_file, student_answers_file, report_file, num_rows):
+def generate_report(answer_key_file, student_answers_file, report_file):
     answer_key = read_file(answer_key_file)
     student_answers = read_file(student_answers_file)
 
@@ -68,23 +68,19 @@ def generate_report(answer_key_file, student_answers_file, report_file, num_rows
         row_cells[1].text = str(correct)
         row_cells[2].text = str(score_dict["incorrect"])
 
-    # Make the rows dependant on the input number
-    if num_rows < len(reading_dict)+1:
-        for i in range(num_rows+1, len(reading_dict)+1):
-            reading_table.rows[i].height = Pt(0)
-    else:
-        for i in range(len(reading_dict)+1, num_rows+1):
-            reading_table.add_row().height = Pt(20)
+
+
 
     # Add some more styling
     for row in reading_table.rows:
         for cell in row.cells:
+            cell.width = docx.shared.Inches(2)
             paragraphs = cell.paragraphs
             for p in paragraphs:
                 for run in p.runs:
                     font = run.font
-                    font.size = Pt(12)
-                    font.name = 'Georgia'
+                    font.name = 'Arial'
+                    font.size = Pt(11)
 
     # Add the writing table
     doc.add_paragraph("Writing Section", style='Heading 1')
@@ -92,7 +88,9 @@ def generate_report(answer_key_file, student_answers_file, report_file, num_rows
     writing_table.style = "Table Grid"
     hdr_cells = writing_table.rows[0].cells
     hdr_cells[0].text = "Topic"
+    hdr_cells[1].text = "Correct"
     hdr_cells[2].text = "Incorrect"
+
     for topic, score_dict in writing_dict.items():
         correct, total = get_topic_scores(score_dict)
         percentage = (correct / total) * 100 if total > 0 else 0
@@ -101,23 +99,32 @@ def generate_report(answer_key_file, student_answers_file, report_file, num_rows
         row_cells[1].text = str(correct)
         row_cells[2].text = str(score_dict["incorrect"])
 
-    # Make the rows dependant on the input number
-    if num_rows < len(writing_dict)+1:
-        for i in range(num_rows+1, len(writing_dict)+1):
-            writing_table.rows[i].height = Pt(0)
-    else:
-        for i in range(len(writing_dict)+1, num_rows+1):
-            writing_table.add_row().height = Pt(20)
-
     # Add some more styling
     for row in writing_table.rows:
         for cell in row.cells:
+            cell.width = docx.shared.Inches(2)
             paragraphs = cell.paragraphs
             for p in paragraphs:
                 for run in p.runs:
                     font = run.font
-                    font.size = Pt(12)
-                    font.name = 'Georgia'
+                    font.name = 'Arial'
+                    font.size = Pt(11)
+
+    # Add a page break
+    doc.add_page_break()
+
+    # Add the overall score
+    doc.add_heading("Overall Score", level=1)
+    num_correct = sum([sum(d.values()) for d in reading_dict.values()] + 
+                        [sum(d.values()) for d in writing_dict.values()])
+    num_questions = len(answer_key)
+    overall_percentage = (num_correct / num_questions) * 100 if num_questions > 0 else 0
+    doc.add_paragraph(f"You got {num_correct} out of {num_questions} questions correct, which is {overall_percentage:.2f}%.")
+
+    # Save the document to the BytesIO object
+    # doc.save(report_file)
+    # return report_file
+
     # Add the conclusion
     conclusion = doc.add_paragraph("Well done! Keep up the good work!")
     conclusion.style.font.size = Pt(12)
@@ -132,9 +139,10 @@ def generate_report(answer_key_file, student_answers_file, report_file, num_rows
 
     # Save the document
     doc.save(report_file)
+    return report_file
 
 
-# generate_report("answer_key.txt", "student_answers.txt", "test_report.docx", 4)
+generate_report("answer_key.txt", "student_answers.txt",'test_report.docx')
 
 
 
