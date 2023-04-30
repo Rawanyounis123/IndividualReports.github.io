@@ -141,7 +141,7 @@ def generate_report(answer_key_file, student_answers_file, report_file):
 
 
     # Return the PDF file for download
-    return (open(report_file, "rb").read())
+    return report_file
 
 
 generate_report("answer_key.txt", "student_answers.txt", 'test_report.docx')

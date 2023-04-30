@@ -14,4 +14,4 @@ def generate():
 
     # Return the report file to the user for download
     report_file.seek(0)
-    return send_file(report_file, as_attachment=True, attachment_filename='test_report.docx')
+    return send_file(report_file, as_attachment=True, attachment_filename='test_report.pdf', mimetype='application/pdf')
