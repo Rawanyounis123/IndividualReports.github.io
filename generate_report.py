@@ -1,4 +1,5 @@
 from io import BytesIO
+from flask import Flask
 
 @app.route('/generate', methods=['GET'])
 def generate():
