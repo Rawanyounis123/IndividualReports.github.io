@@ -138,9 +138,20 @@ def generate_report(answer_key_file, student_answers_file, report_file):
 
 
     # Save the document
-    
     doc.save(report_file)
-    return report_file
+    # Convert the Word document to PDF format
+    convert(report)
+
+    # Set the content type as application/pdf
+    headers = {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment; filename=document.pdf'
+    }
+
+    # Return the PDF file for download
+    return Response(open("document.pdf", "rb").read(), headers=headers)
+    
+    
 
 
 generate_report("answer_key.txt", "student_answers.txt",'test_report.docx')
