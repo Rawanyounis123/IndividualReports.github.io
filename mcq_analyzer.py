@@ -2,6 +2,7 @@ import docx
 from docx.shared import Pt
 from docx.enum.text import WD_BREAK
 from collections import defaultdict
+from docx2pdf import convert
 
 
 def read_file(file_name):
@@ -68,9 +69,6 @@ def generate_report(answer_key_file, student_answers_file, report_file):
         row_cells[1].text = str(correct)
         row_cells[2].text = str(score_dict["incorrect"])
 
-
-
-
     # Add some more styling
     for row in reading_table.rows:
         for cell in row.cells:
@@ -115,11 +113,12 @@ def generate_report(answer_key_file, student_answers_file, report_file):
 
     # Add the overall score
     doc.add_heading("Overall Score", level=1)
-    num_correct = sum([sum(d.values()) for d in reading_dict.values()] + 
-                        [sum(d.values()) for d in writing_dict.values()])
+    num_correct = sum([sum(d.values()) for d in reading_dict.values()] +
+                      [sum(d.values()) for d in writing_dict.values()])
     num_questions = len(answer_key)
     overall_percentage = (num_correct / num_questions) * 100 if num_questions > 0 else 0
-    doc.add_paragraph(f"You got {num_correct} out of {num_questions} questions correct, which is {overall_percentage:.2f}%.")
+    doc.add_paragraph(
+        f"You got {num_correct} out of {num_questions} questions correct, which is {overall_percentage:.2f}%.")
 
     # Save the document to the BytesIO object
     # doc.save(report_file)
@@ -135,26 +134,17 @@ def generate_report(answer_key_file, student_answers_file, report_file):
     link_paragraph = doc.add_paragraph(link_text)
     link_paragraph.style.font.size = Pt(12)
 
-
-
     # Save the document
     doc.save(report_file)
     # Convert the Word document to PDF format
-    convert(report)
+    convert(report_file)
 
-    # Set the content type as application/pdf
-    headers = {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': 'attachment; filename=document.pdf'
-    }
 
     # Return the PDF file for download
-    return Response(open("document.pdf", "rb").read(), headers=headers)
-    
-    
+    return (open(report_file, "rb").read())
 
 
-generate_report("answer_key.txt", "student_answers.txt",'test_report.docx')
+generate_report("answer_key.txt", "student_answers.txt", 'test_report.docx')
 
 
 
