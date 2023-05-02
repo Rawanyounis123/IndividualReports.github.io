@@ -13,5 +13,8 @@ def generate():
     report = mcq_analyzer.generate_report(answer_key_file, student_answers_file, report_file)
 
     # Return the report file to the user for download
-    report_file.seek(0)
-    return send_file(report_file, as_attachment=True, attachment_filename='test_report.pdf', mimetype='application/pdf')
+    report.seek(0)
+    return send_file(report, as_attachment=True, attachment_filename='test_report.pdf', mimetype='application/pdf')
+
+if __name__ == "__main__":
+    app.run(debug=False, host = '0.0.0.0')
