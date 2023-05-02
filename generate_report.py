@@ -4,7 +4,7 @@ import mcq_analyzer
 
 import tempfile
 app = Flask(__name__)
-@app.route('/generate', methods=['POST'])
+@app.route('/', methods=['POST'])
 def generate():
     answer_key_file = request.files['answer_key_file']
     student_answers_file = request.files['student_answers_file']
