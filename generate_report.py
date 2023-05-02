@@ -11,23 +11,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-	return """<!DOCTYPE html>
-<html>
-<head>
-	<title>Generate Word File</title>
-</head>
-<body>
-	<form method="POST" action="/generate_word" enctype="multipart/form-data">
-		<label for="file1">File 1:</label>
-		<input type="file" id="file1" name="file1"><br><br>
+	return "index.html"
 
-		<label for="file2">File 2:</label>
-		<input type="file" id="file2" name="file2"><br><br>
-
-		<input type="submit" value="Generate">
-	</form>
-</body>
-</html>"""
 def read_file(file_name):
     with open(file_name, "r") as f:
         lines = f.readlines()
@@ -158,7 +143,7 @@ def generate_word():
     link_text = "https://drive.google.com/drive/folders/1V12ViiL2x_DuwJf1hqxRKQycf8cLiRrR?usp=share_link"
     link_paragraph = doc.add_paragraph(link_text)
     link_paragraph.style.font.size = Pt(12)
-    
+
     doc_file = "temp.docx"
     
     # Save the document to a temporary file
