@@ -15,7 +15,7 @@ def generate():
     report_file.close()
 
     # Return the report file to the user for download
-    return send_file(report_file.name, as_attachment=True, attachment_filename='test_report.pdf', mimetype='application/pdf')
+    return send_file(as_attachment=True, attachment_filename='test_report.pdf', mimetype='application/pdf')
 
 if __name__ == "__main__":
     app.run(debug=False, host = '0.0.0.0')
