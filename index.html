@@ -4,12 +4,12 @@
 	<title>Generate Word File</title>
 </head>
 <body>
-	<form method="POST" action="/generate_word" enctype="multipart/form-data">
-		<label for="file1">File 1:</label>
-		<input type="file" id="file1" name="file1"><br><br>
+	<form method="GET" id = "report-form">
+		<label for="answer-key">Answer key:</label>
+		<input type="file" id="answer-key" name="answer-key"><br><br>
 
-		<label for="file2">File 2:</label>
-		<input type="file" id="file2" name="file2"><br><br>
+		<label for="student-answer">File 2:</label>
+		<input type="file" id="student-answer" name="student-answer"><br><br>
 
 		<input type="submit" value="Generate">
 	</form>
